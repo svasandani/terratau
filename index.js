@@ -6,8 +6,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// fairly common operation, so we extract it to middleware
 function assertIntID(req, res, next) {
-    if (isNaN(req.params.id)) {
+    if (isNaN(req.params.id) || (req.params.roleid && isNaN(req.params.roleid)) || (req.params.teamid && isNaN(req.params.teamid))) {
         res.status(400).send("ID should be an integer.");
     } else {
         next();
@@ -64,31 +65,31 @@ app.get('/user/:id/roles', assertIntID, (req, res) => {
     return res.send(`Get all roles of id=${req.params.id} user`);
 });
 
-app.get('/user/:id/role/:id', assertIntID, (req, res) => {
-    return res.send(`Get id=${req.params.id} role for id=${req.params.id} user`);
+app.get('/user/:id/role/:roleid', assertIntID, (req, res) => {
+    return res.send(`Get id=${req.params.roleid} role for id=${req.params.id} user`);
 });
-app.post('/user/:id/role/:id', assertIntID, (req, res) => {
-    return res.send(`Grant id=${req.params.id} role to id=${req.params.id} user`);
+app.post('/user/:id/role/:roleid', assertIntID, (req, res) => {
+    return res.send(`Grant id=${req.params.roleid} role to id=${req.params.id} user`);
 });
-app.put('/user/:id/role/:id', assertIntID, (req, res) => {
-    return res.send(`Update id=${req.params.id} role for id=${req.params.id} user`);
+app.put('/user/:id/role/:roleid', assertIntID, (req, res) => {
+    return res.send(`Update id=${req.params.roleid} role for id=${req.params.id} user`);
 });
-app.delete('/user/:id/role/:id', assertIntID, (req, res) => {
-    return res.send(`Delete id=${req.params.id} role for id=${req.params.id} user`);
+app.delete('/user/:id/role/:roleid', assertIntID, (req, res) => {
+    return res.send(`Delete id=${req.params.roleid} role for id=${req.params.id} user`);
 });
 
 app.get('/user/:id/teams', (req, res) => {
     return res.send(`Get all teams of id=${req.params.id} user`);
 });
 
-app.get('/user/:id/team/:id', assertIntID, (req, res) => {
-    return res.send(`Get id=${req.params.id} team for id=${req.params.id} user`);
+app.get('/user/:id/team/:teamid', assertIntID, (req, res) => {
+    return res.send(`Get id=${req.params.teamid} team for id=${req.params.id} user`);
 });
-app.post('/user/:id/team/:id', assertIntID, (req, res) => {
-    return res.send(`Assign id=${req.params.id} user to id=${req.params.id} team`);
+app.post('/user/:id/team/:teamid', assertIntID, (req, res) => {
+    return res.send(`Assign id=${req.params.teamid} user to id=${req.params.id} team`);
 });
-app.delete('/user/:id/team/:id', assertIntID, (req, res) => {
-    return res.send(`Remove id=${req.params.id} user from id=${req.params.id} team`);
+app.delete('/user/:id/team/:teamid', assertIntID, (req, res) => {
+    return res.send(`Remove id=${req.params.teamid} user from id=${req.params.id} team`);
 });
 
 /*------------------------------------------------
