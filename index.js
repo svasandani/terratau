@@ -1,12 +1,16 @@
+const Handlers = require('./handlers/handlers.js');
+
 var express = require('express');
 
 const app = express();
+
+console.log(Handlers);
  
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/auth', (req, res) => {
-    return res.send(`Authorize with Pukka!`);
+    return res.send(Handlers.Auth.sayHi());
 });
 
 // all follwoing actions require auth, so we check for auth
@@ -27,7 +31,7 @@ USER ROUTES
 ------------------------------------------------*/
 
 app.get('/users', (req, res) => {
-    return res.send(`Get all users`);
+    return res.send(Handlers.User.sayHi());
 });
    
 app.get('/user/:id', (req, res) => {
@@ -78,7 +82,7 @@ ROLE ROUTES
 ------------------------------------------------*/
 
 app.get('/roles', (req, res) => {
-    return res.send(`Get all available roles`);
+    return res.send(Handlers.Role.sayHi());
 });
 
 app.get('/role/:id', (req, res) => {
@@ -101,7 +105,7 @@ TEAM ROUTES
 ------------------------------------------------*/
 
 app.get('/teams', (req, res) => {
-    return res.send(`Get all teams`);
+    return res.send(Handlers.Team.sayHi());
 });
 
 app.get('/team/:id', (req, res) => {
