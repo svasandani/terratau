@@ -30,16 +30,17 @@ app.post('/auth', (req, res) => {
     return Handlers.Auth.talkToPukka(req, res);
 });
 
-// all follwoing actions require auth, so we check for auth
+// all following actions require auth, so we check for auth
 app.use((req, res, next) => {
     let jwt = req.header('Authorization');
 
     if (jwt == null || jwt == '') {
         res.status(403).send(`No JWT provided.`)
     } else {
+        // TODO: restrict all endpoints except GET to admin
         next();
     }
-  });
+});
 
 /*------------------------------------------------
 
@@ -47,18 +48,85 @@ USER ROUTES
 
 ------------------------------------------------*/
 
+/*
+ACCEPT: nil
+
+RETURN:
+{
+    "users": []User{
+        "id": id,
+        "name": name,
+        "email": email,
+        "roles": []Role{
+            "type": role type,
+            "resource_id": id of role resource
+        }
+    }
+}
+*/
 app.get('/users', (req, res) => {
-    return res.send(Handlers.User.sayHi());
+    return Handlers.User.getAllUsers(req, res);
 });
-   
+
+/*
+ACCEPT: nil
+
+RETURN:
+User{
+    "id": id,
+    "name": name,
+    "email": email,
+    "roles": []Role{
+        "type": role type,
+        "resource_id": id of role resource
+    }
+}
+*/
 app.get('/user/:id', assertIntID, (req, res) => {
     return Handlers.User.getUser(req, res);
 });
+/*
+ACCEPT:
+User{
+    "id": id,
+    "name": name,
+    "email": email,
+    "roles": []Role{
+        "type": role type,
+        "resource_id": id of role resource
+    }
+}
+
+RETURN:
+User{
+    "id": id,
+    "name": name,
+    "email": email,
+    "roles": []Role{
+        "type": role type,
+        "resource_id": id of role resource
+    }
+}
+*/
 app.put('/user/:id', assertIntID, (req, res) => {
-    return res.send(`Update id=${req.params.id} user`);
+    return Handlers.User.updateUser(req, res);
 });
+/*
+ACCEPT: nil
+
+RETURN:
+User{
+    "id": id,
+    "name": name,
+    "email": email,
+    "roles": []Role{
+        "type": role type,
+        "resource_id": id of role resource
+    }
+}
+*/
 app.delete('/user/:id', assertIntID, (req, res) => {
-    return res.send(`Delete id=${req.params.id} user`);
+    return Handlers.User.deleteUser(req, res);
 });
 
 app.get('/user/:id/roles', assertIntID, (req, res) => {
