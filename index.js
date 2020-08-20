@@ -9,8 +9,19 @@ console.log(Handlers);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+/*
+ACCEPT:
+{
+    "auth_code": auth_code given by pukka
+}
+
+RETURN:
+{
+    "token": jwt token
+}
+*/
 app.post('/auth', (req, res) => {
-    return res.send(Handlers.Auth.sayHi());
+    return Handlers.Auth.talkToPukka(req, res);
 });
 
 // all follwoing actions require auth, so we check for auth
