@@ -45,8 +45,8 @@ app.get('/users', (req, res) => {
     return res.send(Handlers.User.sayHi());
 });
    
-app.get('/user/:id', (req, res) => {
-    return res.send(`Get id=${req.params.id} user`);
+app.get('/user/:id', assertIntID, (req, res) => {
+    return Handlers.User.getUser(req, res);
 });
 app.put('/user/:id', (req, res) => {
     return res.send(`Update id=${req.params.id} user`);
