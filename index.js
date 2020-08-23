@@ -1,6 +1,6 @@
 const Handlers = require('./handlers/handlers.js');
-const Routes = require('./routes/routes.js')
-const Middleware = require('./middleware/middleware.js')
+const Routes = require('./routes/routes.js');
+const Middleware = require('./middleware/middleware.js');
 
 var express = require('express');
 const app = express();
