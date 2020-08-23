@@ -5,7 +5,7 @@
 <br>
 </h1>
 <br>
-A NodeJS+Express system for user management in Terraling.
+A NodeJS+Express user management service for Terraling.
 
 ## Footnotes
 
